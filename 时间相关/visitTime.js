@@ -11,7 +11,8 @@ function getVisitTime(timeString) {
   if (timeString == "") {
     return "";
   } else {
-    //距离UTC时区1970年1月1日的毫秒数
+    //距离UTC时区1970年1月1日的毫秒数。注意：ios下只能解析“2019/01/01 16:20:45”这种格式
+    timeString = timeString.replace(/-/g, "/");
     var timeStamp = Date.parse(timeString);
 
     var nowTimeStamp = Date.now(); //获取当前时间的时间戳
@@ -22,7 +23,7 @@ function getVisitTime(timeString) {
       return "";
     }
 
-    //参考处用parseInt，这个通常用来解析“127¥”这样的字符串，个人认为Math.trunc更合适
+    //参考处用parseInt，这个通常用来解析“127¥”这样的字符串，个人认为Math.trunc（直接去除小数点后的部分）更合适
     var monthCount = Math.trunc(diffValue / month);
     var weekCount = Math.trunc(diffValue / (7 * day));
     var dayCount = Math.trunc(diffValue / day);
